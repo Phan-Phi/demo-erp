@@ -2,7 +2,7 @@ import { Row } from "react-table";
 import dynamic from "next/dynamic";
 import { useIntl } from "react-intl";
 import { useMeasure } from "react-use";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { cloneDeep, omit, get } from "lodash";
 import { Grid, Stack, Box } from "@mui/material";
@@ -126,6 +126,20 @@ const Component = () => {
     useFetch<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1>(
       transformUrl(ADMIN_PARTNERS_END_POINT, omit(filter, omitFields))
     );
+
+  const controller = new AbortController();
+
+  useEffect(() => {
+    console.log("demo");
+    controller.abort();
+    // window.addEventListener(
+    //   "load",
+    //   function () {
+    //     console.log("demo");
+    //   },
+    //   false
+    // );
+  }, []);
 
   const onFilterChangeHandler = useCallback(
     (key: string) => {
