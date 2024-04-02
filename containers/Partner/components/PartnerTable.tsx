@@ -82,37 +82,37 @@ const PartnerTable = (props: PartnerTableProps) => {
         maxWidth: 64,
         width: 64,
       },
-      {
-        Header: (
-          <Box>
-            <FormattedMessage id={`table.tags`} />
-          </Box>
-        ),
-        accessor: "tags",
-        className: "table.tags",
-        Cell: (
-          props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
-        ) => {
-          const { row } = props;
+      // {
+      //   Header: (
+      //     <Box>
+      //       <FormattedMessage id={`table.tags`} />
+      //     </Box>
+      //   ),
+      //   accessor: "tags",
+      //   className: "table.tags",
+      //   Cell: (
+      //     props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
+      //   ) => {
+      //     const { row } = props;
 
-          const id = get(row, "original.id");
+      //     const id = get(row, "original.id");
 
-          const { loading, data } = useGetTaggedItems(id, SOURCE_TYPE_FOR_TAGS.partner);
+      //     const { loading, data } = useGetTaggedItems(id, SOURCE_TYPE_FOR_TAGS.partner);
 
-          return (
-            <StyledWrapperTags loading={loading} title={<ToolTipForTags data={data} />}>
-              {data &&
-                data.map((item, index) => {
-                  const name = get(item, "tag.name");
+      //     return (
+      //       <StyledWrapperTags loading={loading} title={<ToolTipForTags data={data} />}>
+      //         {data &&
+      //           data.map((item, index) => {
+      //             const name = get(item, "tag.name");
 
-                  return <TableCellForTag key={index}>{name}</TableCellForTag>;
-                })}
-            </StyledWrapperTags>
-          );
-        },
-        width: 180,
-        maxWidth: 180,
-      },
+      //             return <TableCellForTag key={index}>{name}</TableCellForTag>;
+      //           })}
+      //       </StyledWrapperTags>
+      //     );
+      //   },
+      //   width: 180,
+      //   maxWidth: 180,
+      // },
       {
         Header: <FormattedMessage id={`table.partnerName`} />,
         accessor: "partnerName",

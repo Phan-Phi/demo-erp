@@ -51,38 +51,38 @@ const CustomerTable = (props: CustomerTableProps) => {
 
   const columns = useMemo(() => {
     return [
-      {
-        Header: (
-          <Box>
-            <FormattedMessage id={`table.tags`} />
-          </Box>
-        ),
-        accessor: "tags",
-        className: "table.tags",
-        Cell: (
-          props: PropsWithChildren<
-            CellProps<ADMIN_CUSTOMER_DRAFT_CUSTOMER_VIEW_TYPE_V1, any>
-          >
-        ) => {
-          const { row } = props;
+      // {
+      //   Header: (
+      //     <Box>
+      //       <FormattedMessage id={`table.tags`} />
+      //     </Box>
+      //   ),
+      //   accessor: "tags",
+      //   className: "table.tags",
+      //   Cell: (
+      //     props: PropsWithChildren<
+      //       CellProps<ADMIN_CUSTOMER_DRAFT_CUSTOMER_VIEW_TYPE_V1, any>
+      //     >
+      //   ) => {
+      //     const { row } = props;
 
-          const id = get(row, "original.official_customer.id");
-          const { loading, data } = useGetTaggedItems(id, SOURCE_TYPE_FOR_TAGS.customer);
+      //     const id = get(row, "original.official_customer.id");
+      //     const { loading, data } = useGetTaggedItems(id, SOURCE_TYPE_FOR_TAGS.customer);
 
-          return (
-            <StyledWrapperTags loading={loading} title={<ToolTipForTags data={data} />}>
-              {data &&
-                data.map((item, index) => {
-                  const name = get(item, "tag.name");
+      //     return (
+      //       <StyledWrapperTags loading={loading} title={<ToolTipForTags data={data} />}>
+      //         {data &&
+      //           data.map((item, index) => {
+      //             const name = get(item, "tag.name");
 
-                  return <TableCellForTag key={index}>{name}</TableCellForTag>;
-                })}
-            </StyledWrapperTags>
-          );
-        },
-        width: 180,
-        maxWidth: 180,
-      },
+      //             return <TableCellForTag key={index}>{name}</TableCellForTag>;
+      //           })}
+      //       </StyledWrapperTags>
+      //     );
+      //   },
+      //   width: 180,
+      //   maxWidth: 180,
+      // },
       {
         Header: <FormattedMessage id={`table.customerSid`} />,
         accessor: "customerSid",
