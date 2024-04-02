@@ -48,6 +48,7 @@ const defaultFilterValue: PriceComparingListFilterType = {
 
 export default function AuditLogs() {
   const { state: layoutState } = useLayout();
+  console.log("🚀 ~ AuditLogs ~ state:", state)
   const [ref, { height: heightTable }] = useMeasure();
   const [filter, setFilter] = useState(defaultFilterValue);
 
