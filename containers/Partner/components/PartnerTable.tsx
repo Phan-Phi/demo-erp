@@ -127,26 +127,26 @@ const PartnerTable = (props: PartnerTableProps) => {
         },
         maxWidth: 250,
       },
-      {
-        Header: <FormattedMessage id={`table.address`} />,
-        accessor: "address",
-        Cell: (
-          props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
-        ) => {
-          const { row } = props;
+      // {
+      //   Header: <FormattedMessage id={`table.address`} />,
+      //   accessor: "address",
+      //   Cell: (
+      //     props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
+      //   ) => {
+      //     const { row } = props;
 
-          const value = get(row, "original.primary_address.line1");
+      //     const value = get(row, "original.primary_address.line1");
 
-          const primaryAddress = get(row, "original.primary_address");
+      //     const primaryAddress = get(row, "original.primary_address");
 
-          const clonePrimaryAddress = cloneDeep(primaryAddress);
+      //     const clonePrimaryAddress = cloneDeep(primaryAddress);
 
-          set(clonePrimaryAddress, "address", value);
+      //     set(clonePrimaryAddress, "address", value);
 
-          return <TableCellWithFullAddress data={clonePrimaryAddress} />;
-        },
-        maxWidth: 300,
-      },
+      //     return <TableCellWithFullAddress data={clonePrimaryAddress} />;
+      //   },
+      //   maxWidth: 300,
+      // },
       {
         Header: <FormattedMessage id={`table.phone_number`} />,
         accessor: "phone_number",

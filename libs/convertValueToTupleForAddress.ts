@@ -22,6 +22,8 @@ export const convertValueToTupleForAddress = async <
   const body = pick(data, ["province", "district", "ward"]);
 
   try {
+  const controller = new AbortController();
+
     const { data: resData } = await axios.get<
       [ward: string, district: string, province: string]
     >(transformUrl(CHOICE_CONVERT_DIVISION, { ...body, country: "vn" }), options);
@@ -31,6 +33,7 @@ export const convertValueToTupleForAddress = async <
     newObj.ward = [body["ward"] ?? "", resData[0]];
     newObj.district = [body["district"] ?? "", resData[1]];
     newObj.province = [body["province"] ?? "", resData[2]];
+    controller.abort();
 
     return newObj;
   } catch (err) {}
