@@ -66,33 +66,33 @@ const PartnerTable = (props: PartnerTableProps) => {
   console.log("🚀 ~ PartnerTable ~ data:", data);
   const router = useRouter();
 
-  useEffect(() => {
-    if (data == undefined) return;
+  // useEffect(() => {
+  //   if (data == undefined) return;
 
-    const primaryAddress: any = [];
-    data.map((el) => {
-      const obj = {
-        province: el.primary_address?.province,
-        district: el.primary_address?.district,
-        ward: el.primary_address?.ward,
-      };
-      primaryAddress.push(obj);
-    });
+  //   const primaryAddress: any = [];
+  //   data.map((el) => {
+  //     const obj = {
+  //       province: el.primary_address?.province,
+  //       district: el.primary_address?.district,
+  //       ward: el.primary_address?.ward,
+  //     };
+  //     primaryAddress.push(obj);
+  //   });
 
-    async function demo() {
-      for (const el of primaryAddress) {
-        const { data: resData } = await axios.get(
-          transformUrl(CHOICE_CONVERT_DIVISION, {
-            ...el,
-            country: "vn",
-          })
-        );
-        console.log("🚀 ~ demo ~ resData:", resData);
-      }
-    }
+  //   async function demo() {
+  //     for (const el of primaryAddress) {
+  //       const { data: resData } = await axios.get(
+  //         transformUrl(CHOICE_CONVERT_DIVISION, {
+  //           ...el,
+  //           country: "vn",
+  //         })
+  //       );
+  //       console.log("🚀 ~ demo ~ resData:", resData);
+  //     }
+  //   }
 
-    demo();
-  }, [data]);
+  //   demo();
+  // }, [data]);
 
   const initialState = { hiddenColumns: hideAndShow };
 
@@ -161,49 +161,49 @@ const PartnerTable = (props: PartnerTableProps) => {
         },
         maxWidth: 250,
       },
-      // {
-      //   Header: <FormattedMessage id={`table.address`} />,
-      //   accessor: "address",
-      //   Cell: (
-      //     props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
-      //   ) => {
-      //     const [state, setState] = useState(false);
-      //     const { row } = props;
+      {
+        Header: <FormattedMessage id={`table.address`} />,
+        accessor: "address",
+        Cell: (
+          props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
+        ) => {
+          const [state, setState] = useState(false);
+          const { row } = props;
 
-      //     const value = get(row, "original.primary_address.line1");
+          const value = get(row, "original.primary_address.line1");
 
-      //     const primaryAddress = get(row, "original.primary_address");
+          const primaryAddress = get(row, "original.primary_address");
 
-      //     const clonePrimaryAddress = cloneDeep(primaryAddress);
+          const clonePrimaryAddress = cloneDeep(primaryAddress);
 
-      //     set(clonePrimaryAddress, "address", value);
+          set(clonePrimaryAddress, "address", value);
 
-      //     useEffect(() => {
-      //       const handleRouteChange = (url, { shallow }) => {
-      //         console.log(
-      //           `App is changing to ${url} ${
-      //             shallow ? "with" : "without"
-      //           } shallow routing`
-      //         );
+          useEffect(() => {
+            const handleRouteChange = (url, { shallow }) => {
+              console.log(
+                `App is changing to ${url} ${
+                  shallow ? "with" : "without"
+                } shallow routing`
+              );
 
-      //         setState(true);
-      //       };
+              setState(true);
+            };
 
-      //       router.events.on("routeChangeStart", handleRouteChange);
+            router.events.on("routeChangeStart", handleRouteChange);
 
-      //       return () => {
-      //         router.events.off("routeChangeStart", handleRouteChange);
-      //       };
-      //     }, [router]);
+            return () => {
+              router.events.off("routeChangeStart", handleRouteChange);
+            };
+          }, [router]);
 
-      //     if (state) {
-      //       return <WrapperTableCell>demo</WrapperTableCell>;
-      //     }
+          // if (state) {
+          //   return <WrapperTableCell>demo</WrapperTableCell>;
+          // }
 
-      //     return <TableCellWithFullAddress demo={state} data={clonePrimaryAddress} />;
-      //   },
-      //   maxWidth: 300,
-      // },
+          return <TableCellWithFullAddress demo={state} data={clonePrimaryAddress} />;
+        },
+        maxWidth: 300,
+      },
       {
         Header: <FormattedMessage id={`table.phone_number`} />,
         accessor: "phone_number",
