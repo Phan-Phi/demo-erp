@@ -164,6 +164,10 @@ const PartnerTable = (props: PartnerTableProps) => {
             };
           }, [router]);
 
+          if (state) {
+            return <WrapperTableCell>demo</WrapperTableCell>;
+          }
+
           return <TableCellWithFullAddress demo={state} data={clonePrimaryAddress} />;
         },
         maxWidth: 300,
