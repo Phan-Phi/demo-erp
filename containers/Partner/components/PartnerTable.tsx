@@ -2,7 +2,7 @@ import { useRowSelect } from "react-table";
 import { useSticky } from "react-table-sticky";
 import { FormattedMessage, useIntl } from "react-intl";
 import { CellProps, useTable, useSortBy } from "react-table";
-import React, { PropsWithChildren, useEffect, useMemo } from "react";
+import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 
 import { cloneDeep, get, set } from "lodash";
 import { Box, Stack, Typography, styled } from "@mui/material";
@@ -40,6 +40,7 @@ import { CommonTableProps } from "interfaces";
 import { formatDate, formatPhoneNumber } from "libs";
 import { SELECTED_TABLE, SOURCE_TYPE_FOR_TAGS } from "constant";
 import { ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1 } from "__generated__/apiType_v1";
+import { useRouter } from "next/router";
 
 type PartnerTableProps = CommonTableProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1> &
   Record<string, any>;
@@ -59,6 +60,7 @@ const PartnerTable = (props: PartnerTableProps) => {
     deleteHandler,
     ...restProps
   } = props;
+  const router = useRouter();
 
   const initialState = { hiddenColumns: hideAndShow };
 
@@ -82,37 +84,37 @@ const PartnerTable = (props: PartnerTableProps) => {
         maxWidth: 64,
         width: 64,
       },
-      // {
-      //   Header: (
-      //     <Box>
-      //       <FormattedMessage id={`table.tags`} />
-      //     </Box>
-      //   ),
-      //   accessor: "tags",
-      //   className: "table.tags",
-      //   Cell: (
-      //     props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
-      //   ) => {
-      //     const { row } = props;
+      {
+        Header: (
+          <Box>
+            <FormattedMessage id={`table.tags`} />
+          </Box>
+        ),
+        accessor: "tags",
+        className: "table.tags",
+        Cell: (
+          props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
+        ) => {
+          const { row } = props;
 
-      //     const id = get(row, "original.id");
+          const id = get(row, "original.id");
 
-      //     const { loading, data } = useGetTaggedItems(id, SOURCE_TYPE_FOR_TAGS.partner);
+          const { loading, data } = useGetTaggedItems(id, SOURCE_TYPE_FOR_TAGS.partner);
 
-      //     return (
-      //       <StyledWrapperTags loading={loading} title={<ToolTipForTags data={data} />}>
-      //         {data &&
-      //           data.map((item, index) => {
-      //             const name = get(item, "tag.name");
+          return (
+            <StyledWrapperTags loading={loading} title={<ToolTipForTags data={data} />}>
+              {data &&
+                data.map((item, index) => {
+                  const name = get(item, "tag.name");
 
-      //             return <TableCellForTag key={index}>{name}</TableCellForTag>;
-      //           })}
-      //       </StyledWrapperTags>
-      //     );
-      //   },
-      //   width: 180,
-      //   maxWidth: 180,
-      // },
+                  return <TableCellForTag key={index}>{name}</TableCellForTag>;
+                })}
+            </StyledWrapperTags>
+          );
+        },
+        width: 180,
+        maxWidth: 180,
+      },
       {
         Header: <FormattedMessage id={`table.partnerName`} />,
         accessor: "partnerName",
@@ -127,26 +129,45 @@ const PartnerTable = (props: PartnerTableProps) => {
         },
         maxWidth: 250,
       },
-      // {
-      //   Header: <FormattedMessage id={`table.address`} />,
-      //   accessor: "address",
-      //   Cell: (
-      //     props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
-      //   ) => {
-      //     const { row } = props;
+      {
+        Header: <FormattedMessage id={`table.address`} />,
+        accessor: "address",
+        Cell: (
+          props: PropsWithChildren<CellProps<ADMIN_PARTNER_PARTNER_VIEW_TYPE_V1, any>>
+        ) => {
+          const [state, setState] = useState(false);
+          const { row } = props;
 
-      //     const value = get(row, "original.primary_address.line1");
+          const value = get(row, "original.primary_address.line1");
 
-      //     const primaryAddress = get(row, "original.primary_address");
+          const primaryAddress = get(row, "original.primary_address");
 
-      //     const clonePrimaryAddress = cloneDeep(primaryAddress);
+          const clonePrimaryAddress = cloneDeep(primaryAddress);
 
-      //     set(clonePrimaryAddress, "address", value);
+          set(clonePrimaryAddress, "address", value);
 
-      //     return <TableCellWithFullAddress data={clonePrimaryAddress} />;
-      //   },
-      //   maxWidth: 300,
-      // },
+          useEffect(() => {
+            const handleRouteChange = (url, { shallow }) => {
+              console.log(
+                `App is changing to ${url} ${
+                  shallow ? "with" : "without"
+                } shallow routing`
+              );
+
+              setState(true);
+            };
+
+            router.events.on("routeChangeStart", handleRouteChange);
+
+            return () => {
+              router.events.off("routeChangeStart", handleRouteChange);
+            };
+          }, [router]);
+
+          return <TableCellWithFullAddress demo={state} data={clonePrimaryAddress} />;
+        },
+        maxWidth: 300,
+      },
       {
         Header: <FormattedMessage id={`table.phone_number`} />,
         accessor: "phone_number",

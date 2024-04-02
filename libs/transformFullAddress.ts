@@ -1,7 +1,13 @@
 import { convertValueToTupleForAddress } from "./convertValueToTupleForAddress";
 
 export const transformFullAddress = async <
-  T extends { address: string; province: string; district?: string; ward?: string },
+  T extends {
+    demo: boolean;
+    address: string;
+    province: string;
+    district?: string;
+    ward?: string;
+  },
 >(
   data: T
 ): Promise<string> => {

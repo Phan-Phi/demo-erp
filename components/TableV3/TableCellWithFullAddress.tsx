@@ -12,6 +12,7 @@ import { Skeleton } from "@mui/material";
 interface TableCellWithFullAddress<T> {
   loading?: boolean;
   data: T;
+  demo?: boolean;
 }
 
 const TableCellWithFullAddress = <
@@ -23,7 +24,7 @@ const TableCellWithFullAddress = <
 
   const isMounted = useMountedState();
 
-  const { data, loading } = props;
+  const { data, loading, demo = false } = props;
 
   useEffect(() => {
     if (loading) {
@@ -33,7 +34,7 @@ const TableCellWithFullAddress = <
     if (data == undefined) {
       setFullAddress("NaN");
     } else {
-      transformFullAddress(cloneDeep(data)).then((address) => {
+      transformFullAddress({ ...cloneDeep(data), demo }).then((address) => {
         if (isMounted()) {
           setFullAddress(address);
         }
