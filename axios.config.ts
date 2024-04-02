@@ -1,23 +1,29 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
 
+export const cancelTokenSource = axios.CancelToken.source();
+
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_DOMAIN_NAME,
 });
 
 instance.interceptors.request.use(
   async function (config) {
-    const session = await getSession();
+    // console.log("🚀 ~ config:", config);
+    // console.log("🚀 ~ config:", config);
+    // const session = await getSession();
 
-    if (session) {
-      const { user } = session;
+    // if (instance.defaults.)
 
-      const token = user.token;
+    // if (session) {
+    //   const { user } = session;
 
-      if (!config?.headers?.Authorization && config.headers) {
-        config.headers.Authorization = `JWT ${token}`;
-      }
-    }
+    //   const token = user.token;
+
+    //   if (!config?.headers?.Authorization && config.headers) {
+    //     config.headers.Authorization = `JWT ${token}`;
+    //   }
+    // }
 
     config.url = config.url!.replace("http://", "https://");
 
