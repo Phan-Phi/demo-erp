@@ -25,7 +25,7 @@ const SWR = ({ children }) => {
   return (
     <SWRConfig
       value={{
-        refreshInterval: 60000,
+        refreshInterval: 120000,
         revalidateIfStale: true,
         revalidateOnFocus: true,
         revalidateOnMount: true,
